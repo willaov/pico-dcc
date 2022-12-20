@@ -28,6 +28,7 @@ static void exe_dcc(exe_t *exe, channel_in_t *in) {
     case CHANNEL_CMD_CV_BIT:    dcc_cv_bit(&exe->dcc, in->msb, in->lsb, in->cv_msb, in->cv_lsb, in->bit, in->flag); break;
     case CHANNEL_CMD_CV29_BIT5: dcc_cv29_bit5(&exe->dcc, in->msb, in->lsb, in->cv29_bit5);                          break;
     case CHANNEL_CMD_LADDR:     dcc_laddr(&exe->dcc, in->msb, in->lsb, in->long_msb, in->long_lsb);                 break;
+    case CHANNEL_CMD_ACCESSORY: dcc_accessory(&exe->dcc, in->msb, in->lsb, in->cv, in->flag);
     }
 }
 

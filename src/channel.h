@@ -28,6 +28,7 @@ static const byte CHANNEL_CMD_CV_BYTE           = CHANNEL_DCC | 0x0c;
 static const byte CHANNEL_CMD_CV_BIT            = CHANNEL_DCC | 0x0d;
 static const byte CHANNEL_CMD_CV29_BIT5         = CHANNEL_DCC | 0x0e;
 static const byte CHANNEL_CMD_LADDR             = CHANNEL_DCC | 0x0f;
+static const byte CHANNEL_CMD_ACCESSORY         = CHANNEL_DCC | 0x10;
 
 typedef struct {
     byte cmd;
@@ -108,6 +109,7 @@ void channel_cv_byte(channel_t *channel, byte msb, byte lsb, byte cv_msb, byte c
 void channel_cv_bit(channel_t *channel, byte msb, byte lsb, byte cv_msb, byte cv_lsb, byte bit, bool flag);
 void channel_cv29_bit5(channel_t *channel, byte msb, byte lsb, bool cv29_bit5);
 void channel_laddr(channel_t *channel, byte msb, byte lsb, byte new_msb, byte new_lsb);
+void channel_accessory(channel_t *channel, byte msb, byte lsb, byte number, bool activate);
 
 bool channel_try_remove_qin(channel_t *channel, channel_in_t *in);
 void channel_remove_blocking_qin(channel_t *channel, channel_in_t *in);

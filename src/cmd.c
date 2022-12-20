@@ -401,6 +401,24 @@ static cmd_rc_t cmd_io_cmdb(cmd_t *cmd, int num_prm, reader_t *reader, writer_t 
     return CMD_RC_OK;
 }
 
+static cmd_rc_t cmd_accessory(cmd_t *cmd, int num_prm, reader_t *reader, writer_t *writer) {
+    if (!cmd_check_num_prm(num_prm, 4, 4)) return CMD_RC_INVNUMPRM;
+
+    uint addr;
+    if (!parse_uint(reader_get_prm(reader, 1), &addr)) return CMD_RC_INVPRM;
+
+    byte number;
+    if (!parse_byte(reader_get_prm(reader, 2), &number)) return CMD_RC_INVPRM;
+
+    bool activate;
+    if (!parse_bool(reader_get_prm(reader, 3), &activate)) return CMD_RC_INVPRM;
+
+    channel_accessory(cmd->channel, MSB(addr), LSB(addr), number, activate);
+
+    write_success(writer, "%c", activate?prot_true:prot_false);
+    return CMD_RC_OK;
+}
+
 void cmd_dispatch(cmd_t *cmd, reader_t *reader, writer_t *writer) {
 
     int num_prm = reader_num_prm(reader);
@@ -427,6 +445,7 @@ void cmd_dispatch(cmd_t *cmd, reader_t *reader, writer_t *writer) {
     case CMD_COMMAND_LOCO_CV1718:    rc = cmd_loco_cv1718(cmd, num_prm, reader, writer);    break;
     case CMD_COMMAND_IO_ADC:         rc = cmd_io_adc(cmd, num_prm, reader, writer);         break;
     case CMD_COMMAND_IO_CMDB:        rc = cmd_io_cmdb(cmd, num_prm, reader, writer);        break;
+    case CMD_COMMAND_ACCESSORY:      rc = cmd_accessory(cmd, num_prm, reader, writer);      break;
     default:                         rc = CMD_RC_NOTIMPL;                                   break;
     }
 

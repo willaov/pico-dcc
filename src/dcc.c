@@ -12,7 +12,7 @@ static const uint DCC_MAX_SYNC_BITS = 32;
 
 static const uint DCC_DEFAULT_SYNC_BITS = DCC_MIN_SYNC_BITS;
 
-static const int DCC_REPEAT_NON_RBUF = 1; // number of repeats for commands not executed cyclic by refresh buffer 
+static const int DCC_REPEAT_NON_RBUF = 4; // number of repeats for commands not executed cyclic by refresh buffer 
 static const int DCC_REPEAT_WRITE_CV = 2; // command needs to be repeated twice to be accepted by the decoder
 
 static void inline ddc_init_internal(dcc_t *dcc) {
@@ -208,6 +208,15 @@ void dcc_dir_speed(dcc_t *dcc, byte msb, byte lsb, byte dir_speed) {
         dcc_send3(dcc, lsb, 0x3f, dir_speed);
     } else {
         dcc_send4(dcc, msb | 0xc0, lsb, 0x3f, dir_speed);
+    }
+}
+
+void dcc_accessory(dcc_t *dcc, byte msb, byte lsb, byte number, bool activate) {
+    uint address = (msb << 8) | lsb;
+    byte addr = address % 64 + 128;
+    byte cmd = ((((address / 64) % 8) << 4) + ((number % 4) << 1) + activate % 2) ^ 0xF8;
+    for (int i = 0; i < DCC_REPEAT_NON_RBUF; i++) {
+        dcc_send2(dcc, addr, cmd);
     }
 }
 

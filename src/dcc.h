@@ -49,5 +49,6 @@ void dcc_cv_byte(dcc_t *dcc, byte msb, byte lsb, byte cv_msb, byte cv_lsb, byte 
 void dcc_cv_bit(dcc_t *dcc, byte msb, byte lsb, byte cv_msb, byte cv_lsb, byte bit, bool flag);
 void dcc_cv29_bit5(dcc_t *dcc, byte msb, byte lsb, bool cv29_bit5);
 void dcc_laddr(dcc_t *dcc, byte msb, byte lsb, byte new_msb, byte new_lsb);
+void dcc_accessory(dcc_t *dcc, byte msb, byte lsb, byte number, bool activate);
 
 #endif

@@ -162,6 +162,15 @@ void channel_laddr(channel_t *channel, byte msb, byte lsb, byte long_msb, byte l
     queue_add_blocking(&channel->qin, &channel->in);
 }
 
+void channel_accessory(channel_t *channel, byte msb, byte lsb, byte number, bool activate) {
+    channel->in.cmd = CHANNEL_CMD_ACCESSORY;
+    channel->in.msb = msb;
+    channel->in.lsb = lsb;
+    channel->in.cv = number;
+    channel->in.flag = activate;
+    queue_add_blocking(&channel->qin, &channel->in);
+}
+
 bool channel_try_remove_qin(channel_t *channel, channel_in_t *in) {
     return queue_try_remove(&channel->qin, in);
 }
